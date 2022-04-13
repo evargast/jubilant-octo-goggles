@@ -1,0 +1,90 @@
+{
+  "payload": {
+    "type": "block_actions",
+    "user": {
+      "id": "W4R50GH32",
+      "username": "delorey",
+      "name": "delorey",
+      "team_id": "T02CAQ0B2"
+    },
+    "api_app_id": "A032CK4TGH3",
+    "token": "IMEIXW0erjIi1vwEeXTtZ9i0",
+    "container": {
+      "type": "message",
+      "message_ts": "1646785129.849229",
+      "channel_id": "D348SB4S3",
+      "is_ephemeral": false
+    },
+    "trigger_id": "3235465157136.2418816376.bc899ff2053a5caedee9bb99d6370e34",
+    "team": {
+      "id": "T02CAQ0B2",
+      "domain": "adobedx",
+      "enterprise_id": "E23RE8G4F",
+      "enterprise_name": "Adobe"
+    },
+    "enterprise": { "id": "E23RE8G4F", "name": "Adobe" },
+    "is_enterprise_install": false,
+    "channel": { "id": "D348SB4S3", "name": "directmessage" },
+    "message": {
+      "type": "message",
+      "subtype": "bot_message",
+      "text": "This content can't be displayed.",
+      "ts": "1646785129.849229",
+      "bot_id": "B032JSEHAMQ",
+      "team": "T02CAQ0B2",
+      "blocks": [
+        {
+          "type": "section",
+          "block_id": "7PY",
+          "text": {
+            "type": "mrkdwn",
+            "text": "<@W5M7MT58U> is in charge of reviewing pull request <https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/test|#test>",
+            "verbatim": false
+          }
+        },
+        {
+          "type": "actions",
+          "block_id": "r0G",
+          "elements": [
+            {
+              "type": "button",
+              "action_id": "acknowledge",
+              "text": {
+                "type": "plain_text",
+                "text": "Acknowledge",
+                "emoji": true
+              },
+              "value": "ack|test"
+            },
+            {
+              "type": "button",
+              "action_id": "pass",
+              "text": { "type": "plain_text", "text": "Pass", "emoji": true },
+              "value": "pass|test"
+            },
+            {
+              "type": "button",
+              "action_id": "claim",
+              "text": { "type": "plain_text", "text": "Claim", "emoji": true },
+              "value": "claim|test"
+            }
+          ]
+        }
+      ]
+    },
+    "state": { "values": {} },
+    "response_url": "https://hooks.slack.com/actions/T02CAQ0B2/3214041529908/wwG0QX94svXQdTsTSupE7jFR",
+    "actions": [
+      {
+        "action_id": "acknowledge",
+        "block_id": "r0G",
+        "text": { "type": "plain_text", "text": "Acknowledge", "emoji": true },
+        "value": "ack|test",
+        "type": "button",
+        "action_ts": "1646786820.541194"
+      }
+    ]
+  }
+}
+
+handleAction.post().form({payload: "{\"type\":\"block_actions\",\"user\":{\"id\":\"W4R50GH32\",\"username\":\"delorey\",\"name\":\"delorey\",\"team_id\":\"T02CAQ0B2\"},\"api_app_id\":\"A032CK4TGH3\",\"token\":\"IMEIXW0erjIi1vwEeXTtZ9i0\",\"container\":{\"type\":\"message\",\"message_ts\":\"1646855490.322259\",\"channel_id\":\"D348SB4S3\",\"is_ephemeral\":false},\"trigger_id\":\"3201946813111.2418816376.74d8329bb310fbb13bc2c2f506a503b9\",\"team\":{\"id\":\"T02CAQ0B2\",\"domain\":\"adobedx\",\"enterprise_id\":\"E23RE8G4F\",\"enterprise_name\":\"Adobe\"},\"enterprise\":{\"id\":\"E23RE8G4F\",\"name\":\"Adobe\"},\"is_enterprise_install\":false,\"channel\":{\"id\":\"D348SB4S3\",\"name\":\"directmessage\"},\"message\":{\"type\":\"message\",\"subtype\":\"bot_message\",\"text\":\"This content can't be displayed.\",\"ts\":\"1646855490.322259\",\"bot_id\":\"B032JSEHAMQ\",\"team\":\"T02CAQ0B2\",\"blocks\":[{\"type\":\"section\",\"block_id\":\"1AISD\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<@W5M7MT58U> is in charge of reviewing pull request <https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/test|#test>\",\"verbatim\":false}},{\"type\":\"actions\",\"block_id\":\"Km4/\",\"elements\":[{\"type\":\"button\",\"action_id\":\"acknowledge\",\"text\":{\"type\":\"plain_text\",\"text\":\"Acknowledge\",\"emoji\":true},\"value\":\"TOwu87bMlzTeb9R29HE2\"},{\"type\":\"button\",\"action_id\":\"pass\",\"text\":{\"type\":\"plain_text\",\"text\":\"Pass\",\"emoji\":true},\"value\":\"TOwu87bMlzTeb9R29HE2\"},{\"type\":\"button\",\"action_id\":\"claim\",\"text\":{\"type\":\"plain_text\",\"text\":\"Claim\",\"emoji\":true},\"value\":\"TOwu87bMlzTeb9R29HE2\"}]}]},\"state\":{\"values\":{}},\"response_url\":\"https://hooks.slack.com/actions/T02CAQ0B2/3240304544464/KrN8hMst4tH5mDGte58ToEQB\",\"actions\":[{\"action_id\":\"claim\",\"block_id\":\"Km4/\",\"text\":{\"type\":\"plain_text\",\"text\":\"Claim\",\"emoji\":true},\"value\":\"TOwu87bMlzTeb9R29HE2\",\"type\":\"button\",\"action_ts\":\"1646858826.276277\"}]}"});

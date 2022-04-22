@@ -1,0 +1,6 @@
+{
+  "name": "sundance-prs",
+  "scripts": {
+    "emulate": "firebase emulators:start --only functions,firestore"
+  }
+}

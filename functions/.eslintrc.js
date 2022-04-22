@@ -11,6 +11,7 @@ module.exports = {
     'plugin:import/typescript',
     'google',
     'plugin:@typescript-eslint/recommended',
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -32,5 +33,6 @@ module.exports = {
     'quote-props': 0,
     'operator-linebreak': 0,
     quotes: 0,
+    'require-jsdoc': 0,
   },
 };

@@ -6,9 +6,9 @@ name: Deploy
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -16,29 +16,31 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.3.0
-        with: 
-          node-version: '16'
+        with:
+          node-version: "16"
       # Install dependencies
       - name: Install dependencies
         run: npm install
-        
+
       # Install Firebase tools
       - name: Install firebase
         run: npm install -g firebase-tools
-        
+
       - name: Setup Firestore emulator
         run: firebase setup:emulators:firestore
-      
+
       - name: Test
         run: npm run test:ci
 
       # Run the TSC compiler
       - name: Build
         run: npm build
-      

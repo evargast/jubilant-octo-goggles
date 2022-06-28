@@ -13,7 +13,7 @@
     "logs": "firebase functions:log",
     "test": "export FIRESTORE_EMULATOR_HOST=localhost:8080 && jest",
     "test:watch": "export FIRESTORE_EMULATOR_HOST=localhost:8080 && jest --watch",
-    "test:ci": "firebase emulators:exec --only functions,firestore \"npm run test\""
+    "test:ci": "npm run build && firebase emulators:exec --only functions,firestore \"npm run test\""
   },
   "engines": {
     "node": "16"

@@ -1,5 +1,4 @@
 import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
 import getNextReviewer from './getNextReviewer';
 import sendDefaultMessage from './sendDefaultMessage';
 import sendActionResponse from './sendActionResponse';

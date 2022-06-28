@@ -11,7 +11,7 @@ on:
     branches: ["main"]
   workflow_dispatch:
 env:
-  FIREBASE_TOKEN: secrets.FIREBASE_TOKEN
+  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -44,5 +44,5 @@ jobs:
         run: npm run test:ci
 
       # Deploy step runs TSC compiler as pre-deploy
-      - name: Build
+      - name: Deploy
         run: firebase deploy --only functions

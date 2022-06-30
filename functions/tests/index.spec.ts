@@ -5,7 +5,7 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import claimReview from '../src/claimReview';
+import { getPrNumberFromUrl } from '../src/handleDefault';
 
 let testEnv: RulesTestEnvironment;
 let queueDoc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
@@ -52,4 +52,15 @@ test('reviewsCollection is set to reviewsTest in test environment', () => {
 test('firestore should have data', async () => {
   const snapshot = await queueDoc.get();
   expect(snapshot.exists).toBe(true);
+});
+
+test('url parser should return correct PR number', () => {
+  const num = '158';
+  const url = `https://git.corp.adobe.com/AnalyticsUI/audience-publishing/pull/${num}`;
+  const num2 = '1';
+  const url2 = `https://github.com/deloreyj/jubilant-octo-goggles/pull/${num2}`;
+  const res = getPrNumberFromUrl(url);
+  const res2 = getPrNumberFromUrl(url2);
+  expect(res).toBe(num);
+  expect(res2).toBe(num2);
 });

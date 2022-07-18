@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import { acknowledgeReview, updateReviewQueue } from './adminUtils';
+import { getPrNumberFromUrl } from './handleDefault';
 import sendActionResponse from './sendActionResponse';
 
 const claimReview = async (
@@ -7,11 +8,12 @@ const claimReview = async (
   userName: string,
   userId: string,
   reviewId: string,
-  pr: string,
+  url: string,
   responseUrl: string
 ) => {
   functions.logger.info(`claiming for ${userName}`);
   functions.logger.info(`response URL ${responseUrl}`);
+  const pr = getPrNumberFromUrl(url);
   try {
     await acknowledgeReview(reviewId, userId, userName);
     updateReviewQueue(userId);
@@ -21,7 +23,7 @@ const claimReview = async (
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `Thank you <@${userId}> for reviewing <https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${pr}|#${pr}>!`,
+            text: `Thank you <@${userId}> for reviewing <$${url}|#${pr}>!`,
           },
         },
       ],

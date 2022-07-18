@@ -16,6 +16,10 @@ export interface ReviewerQueue {
   users: User[];
 }
 
+let baseUrl = 'https://us-central1-sundance-prs.cloudfunctions.net';
+if (process.env.FUNCTIONS_EMULATOR) {
+  baseUrl = 'http://localhost:5001/sundance-prs/us-central1';
+}
 // TODO don't allow assigning reviews to yourself ✅
 // TODO don't allow assigning multiple reviews to one person
 // TODO add a list function ✅
@@ -23,17 +27,13 @@ export interface ReviewerQueue {
 // TODO lock purge function down to only me
 // TODO link to the review page ✅
 // TODO @mention the assignee ✅
-// TODO ack timeout?
 // TODO add person unavailable time ✅
 // TODO pass [pr number]
 // TODO claim a review
 // TODO have ack post back to channel ✅
 export const pullRequest = functions.https.onRequest(
   async (request, response) => {
-    sendActionResponse(
-      'https://us-central1-sundance-prs.cloudfunctions.net/pullRequestInternal',
-      request.body
-    );
+    sendActionResponse(`${baseUrl}/pullRequestInternal`, request.body);
     response.send({
       blocks: [
         {
@@ -65,10 +65,7 @@ export const pullRequestInternal = functions.https.onRequest(
 
 export const handleAction = functions.https.onRequest(
   async (request, response) => {
-    sendActionResponse(
-      'https://us-central1-sundance-prs.cloudfunctions.net/handleActionInternal',
-      request.body
-    );
+    sendActionResponse(`${baseUrl}/handleActionInternal`, request.body);
     response.send('Working on it!');
   }
 );

@@ -73,6 +73,7 @@ const createReview = (
   userId: string,
   userName: string
 ) => {
+  functions.logger.info(`creating review for ${userName}`);
   return admin.firestore().collection(reviewsCollection).add({
     reviewer: nextReviewerId,
     reviewerName: nextReviewerName,

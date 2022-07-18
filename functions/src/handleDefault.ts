@@ -4,6 +4,22 @@ import sendDefaultMessage from './sendDefaultMessage';
 import sendActionResponse from './sendActionResponse';
 import { createReview } from './adminUtils';
 
+export const getPrNumberFromUrl = (url: string) => {
+  return url.split('/').pop() ?? '';
+};
+
+const isUrl = (text: string) => {
+  let url;
+
+  try {
+    url = new URL(text);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === 'http:' || url.protocol === 'https:';
+};
+
 const handleDefault = async (
   response: functions.Response,
   text: string,
@@ -13,15 +29,23 @@ const handleDefault = async (
 ) => {
   // Create new review
   if (text) {
-    functions.logger.info(`creating review for ${userName}`);
     try {
+      let url = '';
+      let pr = '';
+      if (isUrl(text)) {
+        pr = getPrNumberFromUrl(text);
+        url = text;
+      } else {
+        pr = text;
+        url = `https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${text}`;
+      }
       const [nextReviewerId, nextReviewerName] = await getNextReviewer(
         userId /* requestor */
       );
       const doc = await createReview(
         nextReviewerId,
         nextReviewerName,
-        text,
+        url,
         userId,
         userName
       );
@@ -31,7 +55,7 @@ const handleDefault = async (
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `<@${nextReviewerId}> is in charge of reviewing pull request <https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${text}|#${text}>`,
+              text: `<@${nextReviewerId}> is in charge of reviewing pull request <${url}|#${pr}>`,
             },
           },
           {
@@ -43,7 +67,7 @@ const handleDefault = async (
                   type: 'plain_text',
                   text: 'Acknowledge',
                 },
-                value: `${doc.id}|${text}`,
+                value: `${doc.id}|${url}`,
                 action_id: 'acknowledge',
               },
               {
@@ -52,7 +76,7 @@ const handleDefault = async (
                   type: 'plain_text',
                   text: 'Pass',
                 },
-                value: `${doc.id}|${text}`,
+                value: `${doc.id}|${url}`,
                 action_id: 'pass',
               },
               {
@@ -61,7 +85,7 @@ const handleDefault = async (
                   type: 'plain_text',
                   text: 'Claim',
                 },
-                value: `${doc.id}|${text}`,
+                value: `${doc.id}|${url}`,
                 action_id: 'claim',
               },
             ],

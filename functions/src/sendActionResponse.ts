@@ -9,6 +9,12 @@ const sendActionResponse = async (
     `sending action response to ${responseUrl}`,
     responseBody
   );
+  if (
+    process.env.FUNCTIONS_EMULATOR &&
+    responseUrl.startsWith('https://hooks.slack.com')
+  ) {
+    return;
+  }
   const response = await fetch(responseUrl, {
     method: 'POST',
     body: JSON.stringify(responseBody),

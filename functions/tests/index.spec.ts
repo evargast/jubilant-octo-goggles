@@ -5,7 +5,7 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { getPrNumberFromUrl, isUrl } from '../src/handleDefault';
+import { getPrNumberFromUrl, isNumeric, isUrl } from '../src/handleDefault';
 
 let testEnv: RulesTestEnvironment;
 let queueDoc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
@@ -54,20 +54,29 @@ test('firestore should have data', async () => {
   expect(snapshot.exists).toBe(true);
 });
 
-test('url parser should return correct PR number', () => {
+test('url parser should return correct PR number from valid url', () => {
   const num = '158';
   const url = `https://git.corp.adobe.com/AnalyticsUI/audience-publishing/pull/${num}`;
   const num2 = '1';
   const url2 = `https://github.com/deloreyj/jubilant-octo-goggles/pull/${num2}`;
+  const num3 = '1037';
+  const url3 = `https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${num3}`;
   const res = getPrNumberFromUrl(url);
   const res2 = getPrNumberFromUrl(url2);
-  expect(res).toBe(num);
-  expect(res2).toBe(num2);
-});
-
-test('isUrl should return true for valid url', () => {
-  const url = 'https://git.corp.adobe.com/AnalyticsUI/audience-publishing/pull/158';
-  const url2 = 'http://git.corp.adobe.com/AnalycitcsUI/web-spa/pull/158';
+  const res3 = getPrNumberFromUrl(url3);
   expect(isUrl(url)).toBe(true);
   expect(isUrl(url2)).toBe(true);
+  expect(isUrl(url3)).toBe(true);
+  expect(res).toBe(num);
+  expect(res2).toBe(num2);
+  expect(res3).toBe(num3);
 });
+
+test('isNumeric correctly tests if strings are numbers', () => {
+  const str = "123";
+  const str2 = "not a number";
+  const str3 = "mixed/123";
+  expect(isNumeric(str)).toBe(true);
+  expect(isNumeric(str2)).toBe(false);
+  expect(isNumeric(str3)).toBe(false);
+})

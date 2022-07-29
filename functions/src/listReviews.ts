@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import { getPendingReviewsList } from './adminUtils';
+import { getPrNumberFromUrl } from './handleDefault';
 
 const listReviews = async (response: functions.Response) => {
   const reviewDocs = await getPendingReviewsList();
@@ -9,7 +10,7 @@ const listReviews = async (response: functions.Response) => {
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `*${review.reviewerName}* is in charge of reviewing pull request <https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${review.pr}|#${review.pr}>`,
+        text: `*${review.reviewerName}* is in charge of reviewing pull request <${review.pr}|#${getPrNumberFromUrl(review.pr)}>`,
       },
     };
   });

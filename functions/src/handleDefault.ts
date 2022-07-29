@@ -20,8 +20,11 @@ export const isUrl = (text: string) => {
   return url.protocol === 'http:' || url.protocol === 'https:';
 };
 
+export function isNumeric(num : string){
+  return !isNaN(+num)
+}
+
 const handleDefault = async (
-  response: functions.Response,
   text: string,
   userName: string,
   userId: string,
@@ -30,14 +33,17 @@ const handleDefault = async (
   // Create new review
   if (text) {
     try {
-      let url = '';
-      let pr = '';
-      if (isUrl(text)) {
-        pr = getPrNumberFromUrl(text);
-        url = text;
+      let prUrl = '';
+      let prNum = '';
+      if (isUrl(text)) { /* If is a full URL, can make PR from that */ 
+        prNum = getPrNumberFromUrl(text);
+        prUrl = text;
+      } else if (isNumeric(text)) { /* If is numeric, assume is web_spa */
+        prNum = text;
+        prUrl = `https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${text}`;
       } else {
-        pr = text;
-        url = `https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${text}`;
+        prNum = 'Input not valid - supply a valid PR number or URL';
+        prUrl = text;
       }
       const [nextReviewerId, nextReviewerName] = await getNextReviewer(
         userId /* requestor */
@@ -45,17 +51,18 @@ const handleDefault = async (
       const doc = await createReview(
         nextReviewerId,
         nextReviewerName,
-        url,
+        prUrl,
         userId,
         userName
       );
+      console.log(prNum, prUrl);
       await sendActionResponse(responseUrl, {
         blocks: [
           {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `<@${nextReviewerId}> is in charge of reviewing pull request [#${pr}](${url})`,
+              text: `<@${nextReviewerId}> is in charge of reviewing pull request <${prUrl}|#${prNum}>`,
             },
           },
           {
@@ -67,7 +74,7 @@ const handleDefault = async (
                   type: 'plain_text',
                   text: 'Acknowledge',
                 },
-                value: `${doc.id}|${url}`,
+                value: `${doc.id}|${prUrl}`,
                 action_id: 'acknowledge',
               },
               {
@@ -76,7 +83,7 @@ const handleDefault = async (
                   type: 'plain_text',
                   text: 'Pass',
                 },
-                value: `${doc.id}|${url}`,
+                value: `${doc.id}|${prUrl}`,
                 action_id: 'pass',
               },
               {
@@ -85,7 +92,7 @@ const handleDefault = async (
                   type: 'plain_text',
                   text: 'Claim',
                 },
-                value: `${doc.id}|${url}`,
+                value: `${doc.id}|${prUrl}`,
                 action_id: 'claim',
               },
             ],

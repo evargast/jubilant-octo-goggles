@@ -59,7 +59,7 @@ export const pullRequestInternal = functions.https.onRequest(
       response_url: responseUrl,
     } = JSON.parse(request.body);
     functions.logger.info('request body', userId, userName, responseUrl, text);
-    handleDefault(response, text, userName, userId, responseUrl);
+    handleDefault(text, userName, userId, responseUrl);
   }
 );
 

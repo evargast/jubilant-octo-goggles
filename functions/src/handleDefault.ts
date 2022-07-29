@@ -8,7 +8,7 @@ export const getPrNumberFromUrl = (url: string) => {
   return url.split('/').pop() ?? '';
 };
 
-const isUrl = (text: string) => {
+export const isUrl = (text: string) => {
   let url;
 
   try {
@@ -55,7 +55,7 @@ const handleDefault = async (
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `<@${nextReviewerId}> is in charge of reviewing pull request <${url}|#${pr}>`,
+              text: `<@${nextReviewerId}> is in charge of reviewing pull request [#${pr}](${url})`,
             },
           },
           {

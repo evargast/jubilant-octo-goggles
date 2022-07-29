@@ -5,7 +5,7 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { getPrNumberFromUrl } from '../src/handleDefault';
+import { getPrNumberFromUrl, isUrl } from '../src/handleDefault';
 
 let testEnv: RulesTestEnvironment;
 let queueDoc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
@@ -63,4 +63,11 @@ test('url parser should return correct PR number', () => {
   const res2 = getPrNumberFromUrl(url2);
   expect(res).toBe(num);
   expect(res2).toBe(num2);
+});
+
+test('isUrl should return true for valid url', () => {
+  const url = 'https://git.corp.adobe.com/AnalyticsUI/audience-publishing/pull/158';
+  const url2 = 'http://git.corp.adobe.com/AnalycitcsUI/web-spa/pull/158';
+  expect(isUrl(url)).toBe(true);
+  expect(isUrl(url2)).toBe(true);
 });

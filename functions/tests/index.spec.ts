@@ -68,8 +68,6 @@ test('url parser should return correct PR number', () => {
 test('isUrl should return true for valid url', () => {
   const url = 'https://git.corp.adobe.com/AnalyticsUI/audience-publishing/pull/158';
   const url2 = 'http://git.corp.adobe.com/AnalycitcsUI/web-spa/pull/158';
-  const url3 = 'https://git.corp.adobe.com/AnalyticsUI/audience-publishing/pull/193'
   expect(isUrl(url)).toBe(true);
   expect(isUrl(url2)).toBe(true);
-  expect(isUrl(url3)).toBe(true);
 });

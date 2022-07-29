@@ -8,7 +8,7 @@ export const getPrNumberFromUrl = (url: string) => {
   return url.split('/').pop() ?? '';
 };
 
-const isUrl = (text: string) => {
+export const isUrl = (text: string) => {
   let url;
 
   try {

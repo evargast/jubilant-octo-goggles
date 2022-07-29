@@ -2,7 +2,7 @@
   "name": "functions",
   "scripts": {
     "downloadEmulators": "firebase init emulators",
-    "emulate": "firebase emulators:start --only functions,firestore",
+    "emulate": "tsc && firebase emulators:start --only functions,firestore",
     "lint": "eslint --fix --ext .js,.ts .",
     "lint:fix": "eslint --fix --ext .js,.ts .",
     "build": "tsc",

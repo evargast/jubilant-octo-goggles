@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import { assignNextReviewer, getReviewById } from './adminUtils';
 import getNextReviewer from './getNextReviewer';
+import { getPrNumberFromUrl } from './handleDefault';
 import sendActionResponse from './sendActionResponse';
 
 const passReview = async (
@@ -22,7 +23,7 @@ const passReview = async (
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `${review.reviewerName} is unavailable. <@${nextReviewerId}> is now in charge of reviewing pull request <https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${review.pr}|#${review.pr}>`,
+            text: `${review.reviewerName} is unavailable. <@${nextReviewerId}> is now in charge of reviewing pull request <${review.pr}|#${getPrNumberFromUrl(review.pr)}>`,
           },
         },
       ],

@@ -55,7 +55,7 @@ const handleDefault = async (
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `<@${nextReviewerId}> is in charge of reviewing pull request [#${pr}](${url})`,
+              text: `<@${nextReviewerId}> is in charge of reviewing pull request <${url}|#${pr}>`,
             },
           },
           {

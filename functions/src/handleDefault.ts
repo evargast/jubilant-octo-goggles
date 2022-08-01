@@ -35,6 +35,7 @@ const handleDefault = async (
     try {
       let prUrl = '';
       let prNum = '';
+      text = text.replace(/[<>]/g, '');
       if (isUrl(text)) { /* If is a full URL, can make PR from that */ 
         prNum = getPrNumberFromUrl(text);
         prUrl = text;

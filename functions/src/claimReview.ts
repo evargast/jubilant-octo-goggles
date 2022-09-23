@@ -23,7 +23,7 @@ const claimReview = async (
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `Thank you <@${userId}> for reviewing <$${url}|#${pr}>!`,
+            text: `Thank you <@${userId}> for reviewing <${url}|#${pr}>!`,
           },
         },
       ],

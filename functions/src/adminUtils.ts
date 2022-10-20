@@ -46,12 +46,16 @@ const getReviewById = (reviewId: string) => {
   return admin.firestore().collection(reviewsCollection).doc(reviewId).get();
 };
 
-const getReviewQueue = () => {
-  return admin
+const getReviewQueue = async (requestorId: string) => {
+  const queues = await admin
     .firestore()
     .collection(reviewQueueCollection)
-    .doc('Sundance')
     .get();
+  const requestorsTeamQueue = queues.docs.find((doc) => {
+    const queue = doc.data();
+    return queue.users.some((queueItem: any) => queueItem.id === requestorId);
+  });
+  return requestorsTeamQueue!;
 };
 
 const acknowledgeReview = (

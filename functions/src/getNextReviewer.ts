@@ -2,7 +2,7 @@ import { User } from '.';
 import { getReviewQueue } from './adminUtils';
 
 const getNextReviewer = async (requestor: string, userId?: string) => {
-  const reviewerQueueDoc = await getReviewQueue();
+  const reviewerQueueDoc = await getReviewQueue(requestor);
 
   const reviewerQueue = reviewerQueueDoc.data()!.users as User[];
   const availableReviewers = reviewerQueue.filter(

@@ -33,8 +33,9 @@ if (process.env.FUNCTIONS_EMULATOR) {
 // TODO have ack post back to channel ✅
 export const pullRequest = functions.https.onRequest(
   async (request, response) => {
-    sendActionResponse(`${baseUrl}/pullRequestInternal`, request.body);
+    sendActionResponse(`${baseUrl}/pullRequestInternal`, request.body); // Invoke internal "pullRequestInternal" action
     response.send({
+      // Respond immediately to the message to tell Slack we're working on it. Prevents timeouts from cold starts
       blocks: [
         {
           type: 'section',

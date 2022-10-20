@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { generateReviewQueue, generateReview } from '../generators';
+import { generateSundanceReviewQueue, generateReview } from '../generators';
 import { reviewQueueCollection, reviewsCollection } from '../src/constants';
 import {
   initializeTestEnvironment,
@@ -11,7 +11,7 @@ let testEnv: RulesTestEnvironment;
 let queueDoc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
 let reviewDoc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
 const review = generateReview();
-const reviewQueue = generateReviewQueue();
+const reviewQueue = generateSundanceReviewQueue();
 
 beforeAll(async () => {
   testEnv = await initializeTestEnvironment({

@@ -20,8 +20,8 @@ export const isUrl = (text: string) => {
   return url.protocol === 'http:' || url.protocol === 'https:';
 };
 
-export function isNumeric(num : string){
-  return !isNaN(+num)
+export function isNumeric(num: string) {
+  return !isNaN(+num);
 }
 
 const handleDefault = async (
@@ -33,19 +33,7 @@ const handleDefault = async (
   // Create new review
   if (text) {
     try {
-      let prUrl = '';
-      let prNum = '';
-      text = text.replace(/[<>]/g, '');
-      if (isUrl(text)) { /* If is a full URL, can make PR from that */ 
-        prNum = getPrNumberFromUrl(text);
-        prUrl = text;
-      } else if (isNumeric(text)) { /* If is numeric, assume is web_spa */
-        prNum = text;
-        prUrl = `https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${text}`;
-      } else {
-        prNum = 'Input not valid - supply a valid PR number or URL';
-        prUrl = text;
-      }
+      const [prNum, prUrl] = getPrNumAndPrUrl(text);
       const [nextReviewerId, nextReviewerName] = await getNextReviewer(
         userId /* requestor */
       );
@@ -120,6 +108,25 @@ const handleDefault = async (
   }
   await sendDefaultMessage(responseUrl);
   return;
+};
+
+const getPrNumAndPrUrl = (text: string) => {
+  let prUrl = '';
+  let prNum = '';
+  text = text.replace(/[<>]/g, '');
+  if (isUrl(text)) {
+    /* If is a full URL, can make PR from that */
+    prNum = getPrNumberFromUrl(text);
+    prUrl = text;
+  } else if (isNumeric(text)) {
+    /* If is numeric, assume is web_spa */
+    prNum = text;
+    prUrl = `https://git.corp.adobe.com/AnalyticsUI/analytics_web_spa/pull/${text}`;
+  } else {
+    prNum = 'Input not valid - supply a valid PR number or URL';
+    prUrl = text;
+  }
+  return [prNum, prUrl];
 };
 
 export default handleDefault;

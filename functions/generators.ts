@@ -1,4 +1,4 @@
-export const generateReviewQueue = () => ({
+export const generateSundanceReviewQueue = () => ({
   users: [
     {
       name: 'James',
@@ -20,6 +20,11 @@ export const generateReviewQueue = () => ({
       available: true,
       id: 'W4RPQR9UK',
     },
+  ],
+});
+
+export const generateAltaReviewQueue = () => ({
+  users: [
     {
       name: 'Courtney',
       available: true,

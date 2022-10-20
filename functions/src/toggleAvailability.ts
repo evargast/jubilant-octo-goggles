@@ -7,7 +7,7 @@ const toggleAvailability = async (
   userId: string
 ) => {
   let availability;
-  const reviewerQueueDoc = await getReviewQueue();
+  const reviewerQueueDoc = await getReviewQueue(userId);
   const reviewerQueue = reviewerQueueDoc.data()! as ReviewerQueue;
   reviewerQueue.users = reviewerQueue.users.map((user) => {
     if (user.id === userId) {

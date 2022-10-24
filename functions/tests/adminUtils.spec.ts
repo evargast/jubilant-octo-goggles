@@ -9,7 +9,7 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { getReviewQueue } from '../src/adminUtils';
+import { getReviewQueue, updateReviewQueue } from '../src/adminUtils';
 
 let testEnv: RulesTestEnvironment;
 let sundanceQueueDoc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>;
@@ -48,13 +48,27 @@ beforeEach(async () => {
   await reviewDoc.set(review);
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await testEnv.clearFirestore();
 });
 
-test.only('should get the correct reviewQueue for requestor', async () => {
+test('should get the correct reviewQueue for requestor', async () => {
   let queue = await getReviewQueue(sundanceQueue.users[0].id);
   expect(queue.id).toEqual('Sundance');
   queue = await getReviewQueue(altaQueue.users[0].id);
   expect(queue.id).toEqual('Alta');
 });
+
+test('should update correct reviewQueue when claimed', async () => {
+  let firstUserId = sundanceQueue.users[0].id;
+  await updateReviewQueue(firstUserId)
+  const sdQueueUpdated = (await getReviewQueue(firstUserId)).data();
+  expect(sdQueueUpdated.users[0].id).not.toEqual(firstUserId);
+  expect(sdQueueUpdated.users[sdQueueUpdated.users.length - 1].id).toEqual(firstUserId);
+  
+  firstUserId = altaQueue.users[0].id;
+  await updateReviewQueue(altaQueue.users[0].id)
+  const altaQueueUpdated = (await getReviewQueue(altaQueue.users[0].id)).data();
+  expect(altaQueueUpdated.users[0].id).not.toEqual(firstUserId);
+  expect(altaQueueUpdated.users[altaQueueUpdated.users.length - 1].id).toEqual(firstUserId);
+})

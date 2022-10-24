@@ -6,18 +6,14 @@ import { reviewQueueCollection, reviewsCollection } from './constants';
 const updateReviewQueue = async (userId: string) => {
   functions.logger.info(`putting ${userId} back in the queue`);
   try {
-    const reviewQueueDoc = await admin
-      .firestore()
-      .collection(reviewQueueCollection)
-      .doc('Sundance')
-      .get();
+    const reviewQueueDoc = await getReviewQueue(userId);
     const reviewQueue = reviewQueueDoc.data()!.users as User[];
     const index = reviewQueue.findIndex((user) => user.id === userId);
     reviewQueue.push(reviewQueue.splice(index, 1)[0]);
     await admin
       .firestore()
       .collection(reviewQueueCollection)
-      .doc('Sundance')
+      .doc(reviewQueueDoc.id)
       .update({ users: reviewQueue });
   } catch (e) {
     functions.logger.error(e);

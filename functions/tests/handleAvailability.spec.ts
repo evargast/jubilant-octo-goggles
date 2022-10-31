@@ -36,6 +36,10 @@ describe('handleAvailability tests', () => {
     jest.clearAllMocks();
   });
 
+  afterAll(async () => {
+    await testEnv.cleanup();
+  });
+
   test('accepts different text for un/available', async () => {
     expect(isAvailabilityText('-u')).toBeTruthy();
     expect(isAvailabilityText('-a')).toBeTruthy();

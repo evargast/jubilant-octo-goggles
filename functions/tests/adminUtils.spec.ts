@@ -9,7 +9,11 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { getReviewQueue, updateReviewQueue } from '../src/adminUtils';
+import {
+  changeAvailability,
+  getReviewQueue,
+  updateReviewQueue,
+} from '../src/adminUtils';
 
 describe('adminUtils tests', () => {
   let testEnv: RulesTestEnvironment;
@@ -81,5 +85,12 @@ describe('adminUtils tests', () => {
     expect(
       altaQueueUpdated.users[altaQueueUpdated.users.length - 1].id
     ).toEqual(firstUserId);
+  });
+
+  test('should be able to update availablity', async () => {
+    await changeAvailability(sundanceQueue.users[0].id, false);
+    expect(sundanceQueue.users[0].available).toBeTruthy();
+    const queue = await getReviewQueue(sundanceQueue.users[0].id);
+    expect(queue.data().users[0].available).toBeFalsy();
   });
 });

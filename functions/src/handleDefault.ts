@@ -3,6 +3,7 @@ import getNextReviewer from './getNextReviewer';
 import sendDefaultMessage from './sendDefaultMessage';
 import sendActionResponse from './sendActionResponse';
 import { createReview } from './adminUtils';
+import { adjustAvailability, isAvailabilityText } from './handleAvailability';
 
 export const getPrNumberFromUrl = (url: string) => {
   return url.split('/').pop() ?? '';
@@ -30,8 +31,12 @@ const handleDefault = async (
   userId: string,
   responseUrl: string
 ) => {
-  // Create new review
+  // Create new review or change availability
   if (text) {
+    if (isAvailabilityText(text)) {
+      adjustAvailability(text, userName, userId, responseUrl);
+      return;
+    }
     try {
       const [prNum, prUrl] = getPrNumAndPrUrl(text);
       const [nextReviewerId, nextReviewerName] = await getNextReviewer(

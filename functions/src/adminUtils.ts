@@ -84,6 +84,24 @@ const createReview = (
   });
 };
 
+const changeAvailability = async (userId: string, available: boolean) => {
+  functions.logger.info(`changing ${userId} availability to ${available}`);
+  try {
+    const reviewQueueDoc = await getReviewQueue(userId);
+    const reviewQueue = reviewQueueDoc.data()!.users as User[];
+    const index = reviewQueue.findIndex((user) => user.id === userId);
+    reviewQueue[index].available = available;
+    await admin
+      .firestore()
+      .collection(reviewQueueCollection)
+      .doc(reviewQueueDoc.id)
+      .update({ users: reviewQueue });
+  } catch (e) {
+    functions.logger.error(e);
+    throw e;
+  }
+};
+
 const assignNextReviewer = (
   reviewId: string,
   nextReviewerId: string,
@@ -104,4 +122,5 @@ export {
   acknowledgeReview,
   createReview,
   assignNextReviewer,
+  changeAvailability,
 };

@@ -1,4 +1,4 @@
-# Sundance PR Review Bot
+# Sundance PR Review Bot ☀️
 
 This repo contains the code for the Sundance UI team's PR review assignment Slackbot. The application is written using Firebase Functions and Firestore
 
